@@ -5,6 +5,7 @@ import com.junwei.entity.Message;
 import com.junwei.entity.ResponseMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.stereotype.Controller;
@@ -22,17 +23,11 @@ public class MessageController{
         this.messagingTemplate = messagingTemplate;
     }
 
-//    @MessageMapping("/message")
-//    @SendTo("/topic/messages")
-//    public ResponseMessage getMessage(final Message message) throws InterruptedException {
-//        Thread.sleep(1000);
-//        return new ResponseMessage(HtmlUtils.htmlEscape(message.getMessageContent()));
-//    }
-
     @MessageMapping("/message")
-    public void getMessage(final Message message) throws InterruptedException {
-        //Thread.sleep(1000);
-        messagingTemplate.convertAndSend("/topic/messages", new ResponseMessage("jj"));
+    @SendTo("/topic/messages")
+    public ResponseMessage getMessage(final Message message) throws InterruptedException {
+        Thread.sleep(1000);
+        return new ResponseMessage(HtmlUtils.htmlEscape(message.getMessageContent()));
     }
 
     @MessageMapping("/private-message")

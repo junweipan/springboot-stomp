@@ -15,7 +15,7 @@ public class ScheduleTask {
 
     // this will send a message to an endpoint on which a client can subscribe
     // 5000 millisecond
-    @Scheduled(fixedRate = 5000)
+    @Scheduled(fixedRate = 10000)
     public void trigger() {
         this.template.convertAndSend("/topic/auto-messages", "Date: " + new Date());
     }
